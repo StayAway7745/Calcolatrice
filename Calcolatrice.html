@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calcolatrice</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
+</head>
+
+<body>
+  <div class="formstyle">
+    <h1>Calcolatrice</h1>
+    <br>
+    <input id="calc" type="text" name="answer" readonly> <br> <br>
+
+    <input type="button" value="1" onclick="appendToAnswer('1')">
+    <input type="button" value="2" onclick="appendToAnswer('2')">
+    <input type="button" value="3" onclick="appendToAnswer('3')">
+    <input type="button" value="+" onclick="appendToAnswerOperator('+'); OperatorClicked();">
+    <br> <br>
+
+    <input type="button" value="4" onclick="appendToAnswer('4')">
+    <input type="button" value="5" onclick="appendToAnswer('5')">
+    <input type="button" value="6" onclick="appendToAnswer('6')">
+    <input type="button" value="-" onclick="appendToAnswerOperator('-'); OperatorClicked();">
+    <br> <br>
+
+    <input type="button" value="7" onclick="appendToAnswer('7')">
+    <input type="button" value="8" onclick="appendToAnswer('8')">
+    <input type="button" value="9" onclick="appendToAnswer('9')">
+    <input type="button" value="*" onclick="appendToAnswerOperator('*'); OperatorClicked();">
+    <br> <br>
+
+    <input type="button" value="Canc" onclick="clearAll()">
+    <input type="button" value="0" onclick="appendToAnswer('0')">
+    <input type="button" value="." onclick="appendToAnswer('.')">
+    <input type="button" value="/" onclick="appendToAnswerOperator('/'); OperatorClicked();">
+    
+    <br>
+    <br>
+    <input type="button" value="=" onclick="equalButtonClick()" id="clear">
+    
+  </div> 
+<style>
+    body {
+      margin: 0;
+      box-sizing: border-box;
+      background-color: #1a1a1a;
+      color: black;
+
+      font-family: 'Lato', sans-serif;
+    }
+
+    .formstyle {
+      width: 300px;
+      height: 471px;
+      margin: auto;
+      padding: 20px;
+      background-color: #010d21;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    h1, #clear {
+      width: 250px;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background-color: #70b6e9; 
+      margin: auto;
+      border: none; 
+      border-radius: 3px;
+    }
+
+    input {
+      width: 50px;
+      background-color: #70b6e9;
+      color: black;
+      font-family: Lato;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      margin: 5px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    #calc {
+      width: 250px;
+      padding: 20px;
+      margin: auto;
+      font-size: 18px;
+      background-color: #70b6e9;
+      border: none;
+      border-radius: 3px;
+    }
+
+    #calc:focus {
+      outline: none;
+    }
+
+    input:active {
+      background-color: #4682b4;
+    }
+  </style>
+
+  <script>
+    let currentExpression = '';
+    let OperatoreClicked = 0; 
+    let equalButtonClicked = 0;
+
+  function appendToAnswer(value) {
+    console.log('Appending value:', value);
+
+    if (equalButtonClicked == 0) {
+
+    currentExpression += value;
+    document.getElementById('calc').value = currentExpression;
+    }
+    else {
+
+      if (OperatoreClicked == 0) {
+      clearAll();
+
+      currentExpression += value;
+      document.getElementById('calc').value = currentExpression;
+      console.log('Scrivo nuovo numero') 
+      }
+      else {
+        currentExpression += value;
+        document.getElementById('calc').value = currentExpression;
+        console.log('Scrivo nuovo numero2')
+      }
+    }
+  } 
+  
+
+
+    function appendToAnswerOperator(value) {
+      console.log('Appending operator:', value);
+      currentExpression += value;
+      document.getElementById('calc').value = currentExpression;
+    }
+
+    function equalButtonClick() {
+    OperatoreClicked = 0; 
+    equalButtonClicked = 1;
+    console.log('Equal button clicked:', equalButtonClicked, 'time(s)');
+    calculate();
+    }
+
+    function OperatorClicked() {
+    OperatoreClicked = 1;
+    console.log('An operator has been clicked:', OperatoreClicked, 'time(s)');
+    }
+
+    function calculate() {
+    console.log('Calculating...');
+    try {
+      if (currentExpression.trim() !== '') {
+        const result = eval(currentExpression);
+        console.log('Result:', result);
+        document.getElementById('calc').value = result;
+        currentExpression = result.toString();
+      } else {
+        console.log('Expression is empty');
+        document.getElementById('calc').value = '';
+      }
+    } catch (error) {
+      console.log('Error during calculation:', error);
+      document.getElementById('calc').value = 'Errore';
+    }
+    }
+
+
+    function clearAll() {
+      console.log('Clearing all...');
+      currentExpression = '';
+      document.getElementById('calc').value = '';
+      equalButtonClicked = 0;
+      OperatoreClicked = 0; 
+    }
+
+  </script>
+
+</body>
+</html>
